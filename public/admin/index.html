@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <base target="_top">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Panel BAM · Entradas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   bam.css · Sistema BAM Festival aplicado a la plataforma
+   Cinco colores con nombre propio + neutros de apoyo. Sin degradados.
+   ========================================================= */
+:root{
+  --inkwell:#132442; --crossroad:#3551A4; --insight:#80A1F8; --canvas:#8AD6D6; --encore:#D6E264;
+  --paper-insight:#F2F6FE; --mist:#E7E9EC; --cloud:#F1F4F9;
+  --font-display:"Big Shoulders Display","Arial Narrow",Arial,sans-serif;
+  --font-text:"Space Grotesk",Arial,sans-serif;
+  --r-square:12px; --r-card:24px; --r-panel:32px; --r-soft:40px; --r-pill:120px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:var(--font-text);-webkit-font-smoothing:antialiased}
+[hidden]{display:none !important}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:3px solid var(--encore);outline-offset:3px}
+.bam-panel :focus-visible,.bam-admin-main :focus-visible{outline-color:var(--crossroad)}
+button{font:inherit}
+
+/* ---------- Página pública ---------- */
+.bam-public{min-height:100vh;background:var(--inkwell);color:var(--canvas);container-type:inline-size}
+.bam-wrap{max-width:1280px;margin:0 auto;padding-inline:clamp(16px,4cqi,64px)}
+.bam-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:16px}
+.bam-logo{height:clamp(84px,9cqi,128px);width:auto;display:block}
+.bam-sello{height:clamp(26px,2.6cqi,36px);width:auto;display:block}
+.bam-wordmark{font-family:var(--font-display);font-weight:900;font-size:40px;color:var(--encore);letter-spacing:1px}
+.bam-main{display:flex;flex-wrap:wrap;gap:clamp(24px,4cqi,72px);align-items:flex-start;padding-bottom:48px}
+
+.bam-hero{flex:1 1 360px;min-width:0;padding-top:24px;display:flex;flex-direction:column;gap:20px}
+.bam-eyebrow{margin:0;font-weight:700;font-size:14px;letter-spacing:4px;color:var(--insight);text-transform:uppercase}
+.bam-hero h1{margin:0;font-family:var(--font-display);font-weight:900;text-transform:uppercase;line-height:.92;font-size:clamp(56px,9cqi,132px);color:var(--encore)}
+.bam-lead{margin:0;font-size:clamp(17px,1.7cqi,22px);line-height:1.45;max-width:34ch}
+.bam-meta{margin:0;display:grid;grid-template-columns:auto 1fr;column-gap:16px;row-gap:6px;font-size:clamp(15px,1.5cqi,19px)}
+.bam-meta dt{color:var(--insight)} .bam-meta dd{margin:0;font-weight:700}
+.bam-stickers{display:flex;flex-wrap:wrap;gap:16px;padding-top:24px}
+
+/* Sticker: una palabra por forma */
+.bam-sticker{display:inline-block;font-weight:700;font-size:22px;text-transform:uppercase;padding:14px 28px;color:var(--inkwell);border-radius:var(--r-pill)}
+.bam-sticker--insight{background:var(--insight)} .bam-sticker--canvas{background:var(--canvas)} .bam-sticker--encore{background:var(--encore)}
+.bam-sticker--square{border-radius:var(--r-square)} .bam-sticker--soft{border-radius:var(--r-soft)}
+.tilt-l{transform:rotate(-4deg)} .tilt-r{transform:rotate(3deg)} .tilt-l2{transform:rotate(-2deg)} .tilt-r2{transform:rotate(5deg)}
+
+/* Panel claro del formulario */
+.bam-panel{flex:1 1 380px;max-width:560px;min-width:0;background:var(--paper-insight);color:var(--inkwell);border-radius:var(--r-panel);padding:clamp(20px,3cqi,40px);display:flex;flex-direction:column;gap:24px}
+.bam-screen{display:flex;flex-direction:column;gap:20px}
+.bam-h2{margin:0;font-family:var(--font-display);font-weight:900;text-transform:uppercase;line-height:.95;font-size:clamp(34px,3.4cqi,48px)}
+.bam-text{margin:0;font-size:16px;line-height:1.5}
+.bam-note{margin:0;font-size:13px;line-height:1.45;color:var(--crossroad)}
+
+/* Pasos */
+.bam-steps{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.bam-steps li{font-weight:700;font-size:12px;letter-spacing:1px;padding:7px 14px;border-radius:var(--r-pill);border:2px solid var(--inkwell);color:var(--inkwell)}
+.bam-steps li:nth-child(1){transform:rotate(-3deg)} .bam-steps li:nth-child(2){transform:rotate(2deg)}
+.bam-steps li:nth-child(3){transform:rotate(-2deg)} .bam-steps li:nth-child(4){transform:rotate(3deg)}
+.bam-steps li.is-done{background:var(--canvas);border-color:var(--canvas)}
+.bam-steps li[aria-current="step"]{background:var(--encore);border-color:var(--encore)}
+
+/* Campos */
+.bam-field{display:flex;flex-direction:column;gap:6px}
+.bam-field label,.bam-label{font-weight:700;font-size:14px}
+.bam-input{height:52px;padding:0 16px;border-radius:var(--r-square);border:2px solid var(--inkwell);background:transparent;color:var(--inkwell);font:400 17px var(--font-text);width:100%}
+.bam-input::placeholder{color:var(--crossroad);opacity:.75}
+.bam-input--orden{height:56px;font-weight:500;font-size:18px;letter-spacing:.5px}
+.bam-input.is-invalid{border:3px solid var(--crossroad)}
+.bam-error{margin:0;display:flex;gap:6px;align-items:center;font-size:14px;font-weight:700;color:var(--crossroad)}
+.bam-error::before{content:"!";flex:none;width:18px;height:18px;border-radius:50%;border:2.5px solid currentColor;display:grid;place-items:center;font-size:11px;line-height:1}
+
+/* Cantidad */
+.bam-qty-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.bam-qty{display:flex;align-items:center;gap:4px;border:2px solid var(--inkwell);border-radius:var(--r-pill);padding:4px}
+.bam-qty button{width:44px;height:44px;border-radius:var(--r-pill);border:0;background:var(--inkwell);color:var(--encore);cursor:pointer;display:grid;place-items:center}
+.bam-qty button:disabled{opacity:.35;cursor:not-allowed}
+.bam-qty output{min-width:48px;text-align:center;font-family:var(--font-display);font-weight:900;font-size:32px}
+
+/* Resumen */
+.bam-summary{background:var(--encore);color:var(--inkwell);border-radius:var(--r-card);padding:20px 24px;display:flex;flex-direction:column;gap:8px}
+.bam-summary__row{display:flex;justify-content:space-between;gap:12px;font-size:15px}
+.bam-summary__row strong{font-weight:700}
+.bam-summary__rule{height:2px;background:var(--inkwell);margin:6px 0}
+.bam-summary__total{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+.bam-summary__label{font-weight:700;font-size:13px;letter-spacing:3px;text-transform:uppercase}
+.bam-amount{font-family:var(--font-display);font-weight:900;line-height:.9;font-size:clamp(52px,5.6cqi,72px)}
+.bam-amount--xl{font-size:clamp(60px,6.4cqi,84px)}
+
+/* Listas de datos */
+.bam-dl{margin:0;display:grid;grid-template-columns:auto 1fr;column-gap:16px;row-gap:8px;font-size:15px}
+.bam-dl dt{color:var(--crossroad)} .bam-dl dd{margin:0;font-weight:700;overflow-wrap:anywhere}
+.bam-dl--box{border:2px solid var(--inkwell);border-radius:var(--r-card);padding:20px}
+.bam-numbered{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;font-size:15px;counter-reset:n}
+.bam-numbered li{display:flex;gap:12px;align-items:baseline;counter-increment:n}
+.bam-numbered li::before{content:counter(n);flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:13px;background:var(--insight)}
+.bam-numbered li:nth-child(2)::before{background:var(--canvas)} .bam-numbered li:nth-child(3)::before{background:var(--encore)}
+
+/* Botones */
+.bam-btn{min-height:44px;border:0;border-radius:var(--r-pill);font:700 16px var(--font-text);letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;padding:0 24px}
+.bam-btn--primary{height:60px;background:var(--inkwell);color:var(--encore)}
+.bam-btn--accent{height:56px;background:var(--encore);color:var(--inkwell)}
+.bam-btn--outline{height:56px;background:transparent;border:2px solid var(--inkwell);color:var(--inkwell);font-size:15px;letter-spacing:1px}
+.bam-btn--outline.is-highlight{background:var(--encore)}
+.bam-btn--link{background:transparent;color:var(--crossroad);text-transform:none;letter-spacing:0;font-size:14px;text-decoration:underline;align-self:center;padding:0 12px}
+.bam-btn[aria-busy="true"]{opacity:.6;pointer-events:none}
+.bam-btn svg{flex:none}
+
+/* Estados */
+.bam-badge{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;padding:5px 12px;border-radius:var(--r-pill);font-weight:700;font-size:12px;color:var(--inkwell);border:2px solid transparent}
+.bam-badge--pago{background:var(--mist);border:2px dashed var(--inkwell)}
+.bam-badge--verificacion{background:var(--insight);border-color:var(--insight)}
+.bam-badge--confirmado{background:var(--encore);border-color:var(--inkwell)}
+.bam-badge--rechazado{background:var(--inkwell);color:var(--cloud);border-color:var(--inkwell)}
+
+.bam-alert{margin:0;padding:12px 16px;border-radius:var(--r-square);border:2px dashed var(--crossroad);font-size:14px;line-height:1.45}
+
+.bam-footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;padding-block:24px 40px;border-top:1px solid var(--crossroad)}
+.bam-footer__firma{font-weight:700;font-size:13px;letter-spacing:4px;color:var(--insight)}
+.bam-footer__txt{font-size:13px}
+
+@container (max-width:720px){
+  .bam-stickers{display:none}
+  .bam-hero{padding-top:0}
+}
+
+/* ---------- Panel de administración ---------- */
+.bam-admin{min-height:100vh;background:var(--paper-insight);color:var(--inkwell)}
+.bam-admin-header{background:var(--inkwell);color:var(--canvas)}
+.bam-admin-header .bam-wrap{max-width:1440px;padding-block:12px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
+.bam-admin-title{margin:0;font-family:var(--font-display);font-weight:900;text-transform:uppercase;font-size:36px;line-height:1;color:var(--encore)}
+.bam-admin-main{max-width:1440px;margin:0 auto;padding:28px clamp(16px,3vw,48px) 48px;display:flex;flex-direction:column;gap:24px}
+.bam-btn--ghost-dark{height:44px;background:transparent;border:2px solid var(--canvas);color:var(--canvas);font-size:13px;letter-spacing:1px}
+
+.bam-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.bam-kpi{border-radius:var(--r-card);padding:20px 24px;display:flex;flex-direction:column;gap:8px;min-height:148px}
+.bam-kpi__label{font-weight:700;font-size:12px;letter-spacing:3px;text-transform:uppercase}
+.bam-kpi__value{font-family:var(--font-display);font-weight:900;font-size:64px;line-height:.9}
+.bam-kpi__hint{font-size:13px}
+.bam-kpi--encore{background:var(--encore)} .bam-kpi--canvas{background:var(--canvas)} .bam-kpi--insight{background:var(--insight)}
+.bam-kpi--inkwell{background:var(--inkwell);color:var(--canvas)}
+.bam-kpi--inkwell .bam-kpi__label{color:var(--insight)} .bam-kpi--inkwell .bam-kpi__value{color:var(--encore)}
+
+.bam-toolbar{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px}
+.bam-toolbar__tools{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.bam-search{position:relative;display:flex;align-items:center}
+.bam-search svg{position:absolute;left:16px;pointer-events:none}
+.bam-search input{height:48px;width:min(360px,80vw);padding:0 16px 0 44px;border-radius:var(--r-pill);border:2px solid var(--inkwell);background:transparent;color:var(--inkwell);font:400 15px var(--font-text)}
+.bam-search input::placeholder{color:var(--crossroad);opacity:.75}
+.bam-btn--sm{height:48px;font-size:13px;letter-spacing:1px;padding:0 20px}
+
+.bam-chips{display:flex;flex-wrap:wrap;gap:8px}
+.bam-chip{min-height:40px;padding:0 16px;border-radius:var(--r-pill);border:2px solid var(--inkwell);background:transparent;color:var(--inkwell);font:700 13px var(--font-text);cursor:pointer}
+.bam-chip[aria-pressed="true"]{background:var(--inkwell);color:var(--encore)}
+
+.bam-table-box{overflow-x:auto;border-radius:var(--r-card);border:2px solid var(--inkwell)}
+.bam-table{width:100%;min-width:1120px;border-collapse:collapse;font-size:14px}
+.bam-table thead tr{background:var(--inkwell);color:var(--canvas);text-align:left}
+.bam-table th{padding:14px 16px;font-size:12px;letter-spacing:1.5px;text-transform:uppercase}
+.bam-table td{padding:14px 16px;border-top:1px solid var(--mist);vertical-align:middle}
+.bam-table tbody tr:hover{background:var(--mist)}
+.bam-table .num{text-align:right}
+.bam-table .mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px}
+.bam-table .fecha{white-space:nowrap;color:var(--crossroad)}
+.bam-actions{display:flex;gap:8px;flex-wrap:nowrap}
+.bam-act{min-height:40px;padding:0 14px;border-radius:var(--r-pill);font:700 12px var(--font-text);letter-spacing:1px;text-transform:uppercase;cursor:pointer}
+.bam-act--ok{border:0;background:var(--encore);color:var(--inkwell)}
+.bam-act--no{border:2px solid var(--inkwell);background:transparent;color:var(--inkwell)}
+.bam-act--undo{border:0;background:transparent;color:var(--crossroad);text-decoration:underline;text-transform:none;letter-spacing:0}
+.bam-empty{padding:48px 24px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+.bam-empty strong{font-family:var(--font-display);font-weight:900;text-transform:uppercase;font-size:32px}
+
+.bam-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);max-width:calc(100vw - 32px);background:var(--inkwell);color:var(--encore);padding:14px 20px;border-radius:var(--r-pill);font-weight:700;font-size:14px;z-index:10}
+
+/* Login */
+.bam-login{min-height:100vh;background:var(--inkwell);display:grid;place-items:center;padding:16px}
+.bam-login .bam-panel{flex:none;width:min(440px,100%)}
+</style>
+
+</head>
+<body>
+
+<!-- Acceso -->
+<div class="bam-login" id="bam-login">
+  <form class="bam-panel" id="bam-login-form" novalidate>
+    <h1 class="bam-h2">Panel BAM</h1>
+    <p class="bam-text">Acceso para el equipo organizador de BAM Festival 2026.</p>
+    <div class="bam-field">
+      <label for="bam-admin-correo">Correo del organizador</label>
+      <input class="bam-input" id="bam-admin-correo" type="email" autocomplete="username" required placeholder="nombre@cpioneros.cl">
+    </div>
+    <div class="bam-field">
+      <label for="bam-clave">Clave de acceso</label>
+      <input class="bam-input" id="bam-clave" type="password" autocomplete="current-password" required>
+      <p class="bam-error" id="bam-login-err" hidden></p>
+    </div>
+    <button type="submit" class="bam-btn bam-btn--primary">Entrar</button>
+  </form>
+</div>
+
+<!-- Panel -->
+<div class="bam-admin" id="bam-panel" hidden>
+  <header class="bam-admin-header">
+    <div class="bam-wrap">
+      <div style="display:flex;align-items:center;gap:16px">
+        
+        <div>
+          <h1 class="bam-admin-title">Panel BAM</h1>
+          <span style="font-size:14px">Entradas · BAM Festival 2026 · Viernes 27 de noviembre</span>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+        <span style="font-size:13px;color:var(--insight)" id="bam-actualizado"></span>
+        <button type="button" class="bam-btn bam-btn--ghost-dark" id="bam-refrescar">Actualizar</button>
+        <button type="button" class="bam-btn bam-btn--ghost-dark" id="bam-salir">Cerrar sesión</button>
+        
+      </div>
+    </div>
+  </header>
+
+  <main class="bam-admin-main">
+    <section class="bam-kpis" aria-label="Indicadores">
+      <div class="bam-kpi bam-kpi--encore"><span class="bam-kpi__label">Entradas confirmadas</span><span class="bam-kpi__value" data-kpi="entradasConfirmadas">–</span><span class="bam-kpi__hint">Solo pagos verificados</span></div>
+      <div class="bam-kpi bam-kpi--canvas"><span class="bam-kpi__label">Recaudación confirmada</span><span class="bam-kpi__value" data-kpi="recaudacionConfirmada">–</span><span class="bam-kpi__hint">CLP · pagos verificados</span></div>
+      <div class="bam-kpi bam-kpi--insight"><span class="bam-kpi__label">Pendientes de verificación</span><span class="bam-kpi__value" data-kpi="pendientesVerificacion">–</span><span class="bam-kpi__hint">Compras por revisar en Webpay</span></div>
+      <div class="bam-kpi bam-kpi--inkwell"><span class="bam-kpi__label">Órdenes registradas</span><span class="bam-kpi__value" data-kpi="ordenesRegistradas">–</span><span class="bam-kpi__hint">Con número de orden Webpay</span></div>
+    </section>
+
+    <section aria-labelledby="bam-tabla-titulo" style="display:flex;flex-direction:column;gap:16px">
+      <div class="bam-toolbar">
+        <h2 class="bam-h2" id="bam-tabla-titulo">Compradores</h2>
+        <div class="bam-toolbar__tools">
+          <label for="bam-buscar" class="sr-only">Buscar por nombre, correo o número de orden</label>
+          <div class="bam-search">
+            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#132442" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+            <input id="bam-buscar" type="search" placeholder="Nombre, correo o n.º de orden">
+          </div>
+          <button type="button" class="bam-btn bam-btn--primary bam-btn--sm" id="bam-csv">
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Exportar CSV</button>
+        </div>
+      </div>
+
+      <div class="bam-chips" role="group" aria-label="Filtrar por estado" id="bam-filtros"></div>
+
+      <div class="bam-table-box">
+        <table class="bam-table">
+          <thead>
+            <tr>
+              <th scope="col">Fecha y hora</th><th scope="col">Nombre</th><th scope="col">Correo</th>
+              <th scope="col" class="num">Entradas</th><th scope="col" class="num">Monto</th>
+              <th scope="col">N.º orden Webpay</th><th scope="col">Estado</th><th scope="col">Revisado por</th><th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="bam-tbody"></tbody>
+        </table>
+        <div class="bam-empty" id="bam-empty" hidden><strong id="bam-empty-t"></strong><span class="bam-note" id="bam-empty-d"></span></div>
+      </div>
+      <p class="bam-note" id="bam-resumen"></p>
+    </section>
+  </main>
+</div>
+
+<div class="bam-toast" id="bam-toast" role="status" hidden></div>
+
+<script>window.BAM_CFG = {"precio": 4000, "max": 10, "webpay": "https://www.webpay.cl/form-pay/308228", "horario": "15:00 a 20:00 hrs.", "logo": "", "sello": ""};</script>
+<script>
+/* Utilidades compartidas entre la compra y el panel. */
+window.BAM = (function () {
+  /** Llama a una función de Code.gs y devuelve una Promesa. */
+  function api(fn) {
+    var args = Array.prototype.slice.call(arguments, 1);
+    return fetch('/.netlify/functions/bam-api', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fn: fn, args: args }),
+      credentials: 'same-origin'
+    }).then(function (response) {
+      return response.json().catch(function () { throw new Error('No se pudo leer la respuesta del servidor.'); })
+        .then(function (json) {
+          if (!response.ok || !json.ok) throw new Error(json.error || 'No se pudo completar la operación.');
+          return json.data;
+        });
+    });
+  }
+
+  function clp(n) { return '$' + String(Math.round(Number(n) || 0)).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+
+  /** localStorage con try/catch: en modo privado o con datos bloqueados, sigue en memoria. */
+  var memoria = {};
+  var store = {
+    get: function (k) {
+      try { var v = window.localStorage.getItem(k); return v ? JSON.parse(v) : null; }
+      catch (e) { return memoria[k] || null; }
+    },
+    set: function (k, v) {
+      memoria[k] = v;
+      try { window.localStorage.setItem(k, JSON.stringify(v)); } catch (e) {}
+    },
+    remove: function (k) {
+      delete memoria[k];
+      try { window.localStorage.removeItem(k); } catch (e) {}
+    }
+  };
+
+  var BADGE = {
+    'Pendiente de pago': 'bam-badge--pago',
+    'Pendiente de verificación': 'bam-badge--verificacion',
+    'Confirmado': 'bam-badge--confirmado',
+    'Rechazado': 'bam-badge--rechazado'
+  };
+  function badge(el, estado) {
+    el.className = 'bam-badge ' + (BADGE[estado] || '');
+    el.textContent = estado;
+  }
+
+  /** Mensaje legible a partir de un error del servidor. */
+  function msg(err) {
+    var m = (err && err.message) || String(err || '');
+    return m.replace(/^Exception:\s*/i, '').replace(/^Error:\s*/i, '') || 'Ocurrió un problema. Intenta de nuevo.';
+  }
+
+  function busy(btn, on) {
+    if (!btn) return;
+    btn.setAttribute('aria-busy', on ? 'true' : 'false');
+    btn.disabled = !!on;
+  }
+
+  return { api: api, clp: clp, store: store, badge: badge, msg: msg, busy: busy, ESTADOS: Object.keys(BADGE) };
+})();
+</script>
+
+<script>
+(function () {
+  var $ = function (s) { return document.querySelector(s); };
+  var SKEY = 'bam2026_admin';
+  var sesion = null;
+  try { sesion = window.sessionStorage.getItem(SKEY); } catch (e) {}
+  var datos = { kpis: {}, compras: [] };
+  var filtro = 'Todos', q = '';
+
+  /* ---------- Sesión ---------- */
+  function setSesion(v) {
+    sesion = v;
+    try { v ? window.sessionStorage.setItem(SKEY, v) : window.sessionStorage.removeItem(SKEY); } catch (e) {}
+  }
+  function mostrarPanel(on) { $('#bam-login').hidden = on; $('#bam-panel').hidden = !on; }
+  function manejarError(err) {
+    if (/SESION_EXPIRADA/.test(BAM.msg(err))) { setSesion(null); mostrarPanel(false); loginError('Tu sesión expiró. Vuelve a ingresar.'); return; }
+    toast(BAM.msg(err));
+  }
+  function loginError(t) { var el = $('#bam-login-err'); el.textContent = t; el.hidden = !t; }
+
+  $('#bam-login-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var btn = e.submitter; BAM.busy(btn, true); loginError('');
+    BAM.api('adminLogin', $('#bam-admin-correo').value.trim(), $('#bam-clave').value)
+      .then(function (s) { setSesion(s); $('#bam-clave').value = ''; mostrarPanel(true); cargar(); })
+      .catch(function (err) { loginError(BAM.msg(err)); })
+      .finally(function () { BAM.busy(btn, false); });
+  });
+  $('#bam-salir').addEventListener('click', function () {
+    BAM.api('adminLogout', sesion).catch(function () {});
+    setSesion(null); mostrarPanel(false);
+  });
+
+  /* ---------- Datos ---------- */
+  function cargar() {
+    BAM.api('adminListar', sesion).then(function (d) {
+      datos = d;
+      $('#bam-actualizado').textContent = 'Actualizado ' + d.generado;
+      render();
+    }).catch(manejarError);
+  }
+  $('#bam-refrescar').addEventListener('click', cargar);
+
+  /* ---------- Render ---------- */
+  function visibles() {
+    var ql = q.trim().toLowerCase();
+    return datos.compras.filter(function (r) {
+      return (filtro === 'Todos' || r.estado === filtro) &&
+        (!ql || (r.nombre + ' ' + r.correo + ' ' + r.orden).toLowerCase().indexOf(ql) !== -1);
+    });
+  }
+
+  function el(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
+
+  function accion(r, tipo, texto, cls) {
+    var b = el('button', 'bam-act ' + cls, texto);
+    b.type = 'button';
+    b.setAttribute('aria-label', texto + ' · ' + r.nombre);
+    b.addEventListener('click', function () {
+      var preguntas = {
+        confirmar: '¿Confirmar el pago de ' + r.nombre + ' por ' + BAM.clp(r.monto) + '?\nRevisa antes que la orden ' + r.orden + ' exista en Webpay por ese monto.',
+        rechazar: '¿Rechazar la compra de ' + r.nombre + '?'
+      };
+      if (preguntas[tipo] && !window.confirm(preguntas[tipo])) return;
+      var nota = '';
+      if (tipo === 'confirmar') {
+        var cotejo = window.confirm('CONFIRMACIÓN DE COTEJO\n\n¿Comprobaste en Webpay que la operación está APROBADA y que la orden ' + r.orden + ' corresponde exactamente a ' + BAM.clp(r.monto) + '?\n\nSolo confirma si revisaste ambas cosas.');
+        if (!cotejo) return;
+        nota = 'Operación aprobada y monto cotejado manualmente en Webpay';
+      } else if (tipo === 'rechazar') {
+        nota = window.prompt('Motivo del rechazo (obligatorio):', '');
+        if (nota === null) return;
+        if (!nota.trim()) { toast('Debes indicar el motivo del rechazo.'); return; }
+      } else if (tipo === 'revertir') {
+        nota = window.prompt('Motivo para volver a pendiente (obligatorio):', '');
+        if (nota === null) return;
+        if (!nota.trim()) { toast('Debes indicar el motivo de la reversión.'); return; }
+      }
+      b.disabled = true;
+      BAM.api('adminActualizarEstado', sesion, r.id, tipo, nota)
+        .then(function (res) { toast(r.nombre + ' · ' + res.estado); cargar(); })
+        .catch(function (err) { b.disabled = false; manejarError(err); });
+    });
+    return b;
+  }
+
+  function render() {
+    var k = datos.kpis;
+    document.querySelectorAll('[data-kpi]').forEach(function (n) {
+      var key = n.getAttribute('data-kpi'), v = k[key];
+      n.textContent = v == null ? '–' : (key === 'recaudacionConfirmada' ? BAM.clp(v) : v);
+    });
+
+    var chips = $('#bam-filtros'); chips.textContent = '';
+    ['Todos'].concat(BAM.ESTADOS).forEach(function (label) {
+      var n = label === 'Todos' ? datos.compras.length : datos.compras.filter(function (r) { return r.estado === label; }).length;
+      var b = el('button', 'bam-chip', label + ' · ' + n);
+      b.type = 'button'; b.setAttribute('aria-pressed', String(label === filtro));
+      b.addEventListener('click', function () { filtro = label; render(); });
+      chips.appendChild(b);
+    });
+
+    var rows = visibles(), tb = $('#bam-tbody'); tb.textContent = '';
+    rows.forEach(function (r) {
+      var tr = el('tr');
+      tr.appendChild(el('td', 'fecha', r.fecha));
+      tr.appendChild(el('td', null, r.nombre)).style.fontWeight = '700';
+      tr.appendChild(el('td', null, r.correo));
+      tr.appendChild(el('td', 'num', r.cantidad)).style.fontWeight = '700';
+      tr.appendChild(el('td', 'num', BAM.clp(r.monto)));
+      tr.appendChild(el('td', 'mono', r.orden || 'Sin orden aún'));
+      var tdE = el('td'), badge = el('span'); BAM.badge(badge, r.estado); tdE.appendChild(badge); tr.appendChild(tdE);
+      tr.appendChild(el('td', null, r.revisadoPor || '—'));
+      var tdA = el('td'), box = el('div', 'bam-actions');
+      if (r.estado === 'Pendiente de verificación') box.appendChild(accion(r, 'confirmar', 'Confirmar', 'bam-act--ok'));
+      if (r.estado === 'Pendiente de verificación' || r.estado === 'Pendiente de pago') box.appendChild(accion(r, 'rechazar', 'Rechazar', 'bam-act--no'));
+      if (r.estado === 'Confirmado' || r.estado === 'Rechazado') box.appendChild(accion(r, 'revertir', 'Volver a pendiente', 'bam-act--undo'));
+      tdA.appendChild(box); tr.appendChild(tdA);
+      tb.appendChild(tr);
+    });
+
+    var vacio = rows.length === 0;
+    $('#bam-empty').hidden = !vacio;
+    if (vacio) {
+      var sinDatos = datos.compras.length === 0;
+      $('#bam-empty-t').textContent = sinDatos ? 'Aún no hay órdenes' : 'Sin resultados';
+      $('#bam-empty-d').textContent = sinDatos ? 'Las compras aparecerán aquí a medida que se registren.' : 'Prueba con otro término o cambia el filtro de estado.';
+    }
+    $('#bam-resumen').textContent = 'Mostrando ' + rows.length + ' de ' + datos.compras.length + ' registros.';
+  }
+
+  var tq;
+  $('#bam-buscar').addEventListener('input', function (e) { clearTimeout(tq); tq = setTimeout(function () { q = e.target.value; render(); }, 150); });
+
+  /* ---------- CSV ---------- */
+  $('#bam-csv').addEventListener('click', function (e) {
+    var btn = e.currentTarget; BAM.busy(btn, true);
+    BAM.api('adminExportarCSV', sesion, filtro, q).then(function (csv) {
+      var nombre = 'bam-2026-compras-' + new Date().toISOString().slice(0, 10) + '.csv';
+      var blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a'); a.href = url; a.download = nombre;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+    }).catch(manejarError).finally(function () { BAM.busy(btn, false); });
+  });
+
+  /* ---------- Aviso ---------- */
+  var tt;
+  function toast(t) { var n = $('#bam-toast'); n.textContent = t; n.hidden = false; clearTimeout(tt); tt = setTimeout(function () { n.hidden = true; }, 4000); }
+
+  /* ---------- Inicio ---------- */
+  if (sesion) { mostrarPanel(true); cargar(); } else { mostrarPanel(false); }
+})();
+</script>
+
+</body>
+</html>

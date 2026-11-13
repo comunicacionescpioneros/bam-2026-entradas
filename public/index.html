@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <base target="_top">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BAM Festival 2026 · Entradas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   bam.css · Sistema BAM Festival aplicado a la plataforma
+   Cinco colores con nombre propio + neutros de apoyo. Sin degradados.
+   ========================================================= */
+:root{
+  --inkwell:#132442; --crossroad:#3551A4; --insight:#80A1F8; --canvas:#8AD6D6; --encore:#D6E264;
+  --paper-insight:#F2F6FE; --mist:#E7E9EC; --cloud:#F1F4F9;
+  --font-display:"Big Shoulders Display","Arial Narrow",Arial,sans-serif;
+  --font-text:"Space Grotesk",Arial,sans-serif;
+  --r-square:12px; --r-card:24px; --r-panel:32px; --r-soft:40px; --r-pill:120px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:var(--font-text);-webkit-font-smoothing:antialiased}
+[hidden]{display:none !important}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:3px solid var(--encore);outline-offset:3px}
+.bam-panel :focus-visible,.bam-admin-main :focus-visible{outline-color:var(--crossroad)}
+button{font:inherit}
+
+/* ---------- Página pública ---------- */
+.bam-public{min-height:100vh;background:var(--inkwell);color:var(--canvas);container-type:inline-size}
+.bam-wrap{max-width:1280px;margin:0 auto;padding-inline:clamp(16px,4cqi,64px)}
+.bam-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:16px}
+.bam-logo{height:clamp(84px,9cqi,128px);width:auto;display:block}
+.bam-sello{height:clamp(26px,2.6cqi,36px);width:auto;display:block}
+.bam-wordmark{font-family:var(--font-display);font-weight:900;font-size:40px;color:var(--encore);letter-spacing:1px}
+.bam-main{display:flex;flex-wrap:wrap;gap:clamp(24px,4cqi,72px);align-items:flex-start;padding-bottom:48px}
+
+.bam-hero{flex:1 1 360px;min-width:0;padding-top:24px;display:flex;flex-direction:column;gap:20px}
+.bam-eyebrow{margin:0;font-weight:700;font-size:14px;letter-spacing:4px;color:var(--insight);text-transform:uppercase}
+.bam-hero h1{margin:0;font-family:var(--font-display);font-weight:900;text-transform:uppercase;line-height:.92;font-size:clamp(56px,9cqi,132px);color:var(--encore)}
+.bam-lead{margin:0;font-size:clamp(17px,1.7cqi,22px);line-height:1.45;max-width:34ch}
+.bam-meta{margin:0;display:grid;grid-template-columns:auto 1fr;column-gap:16px;row-gap:6px;font-size:clamp(15px,1.5cqi,19px)}
+.bam-meta dt{color:var(--insight)} .bam-meta dd{margin:0;font-weight:700}
+.bam-stickers{display:flex;flex-wrap:wrap;gap:16px;padding-top:24px}
+
+/* Sticker: una palabra por forma */
+.bam-sticker{display:inline-block;font-weight:700;font-size:22px;text-transform:uppercase;padding:14px 28px;color:var(--inkwell);border-radius:var(--r-pill)}
+.bam-sticker--insight{background:var(--insight)} .bam-sticker--canvas{background:var(--canvas)} .bam-sticker--encore{background:var(--encore)}
+.bam-sticker--square{border-radius:var(--r-square)} .bam-sticker--soft{border-radius:var(--r-soft)}
+.tilt-l{transform:rotate(-4deg)} .tilt-r{transform:rotate(3deg)} .tilt-l2{transform:rotate(-2deg)} .tilt-r2{transform:rotate(5deg)}
+
+/* Panel claro del formulario */
+.bam-panel{flex:1 1 380px;max-width:560px;min-width:0;background:var(--paper-insight);color:var(--inkwell);border-radius:var(--r-panel);padding:clamp(20px,3cqi,40px);display:flex;flex-direction:column;gap:24px}
+.bam-screen{display:flex;flex-direction:column;gap:20px}
+.bam-h2{margin:0;font-family:var(--font-display);font-weight:900;text-transform:uppercase;line-height:.95;font-size:clamp(34px,3.4cqi,48px)}
+.bam-text{margin:0;font-size:16px;line-height:1.5}
+.bam-note{margin:0;font-size:13px;line-height:1.45;color:var(--crossroad)}
+
+/* Pasos */
+.bam-steps{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.bam-steps li{font-weight:700;font-size:12px;letter-spacing:1px;padding:7px 14px;border-radius:var(--r-pill);border:2px solid var(--inkwell);color:var(--inkwell)}
+.bam-steps li:nth-child(1){transform:rotate(-3deg)} .bam-steps li:nth-child(2){transform:rotate(2deg)}
+.bam-steps li:nth-child(3){transform:rotate(-2deg)} .bam-steps li:nth-child(4){transform:rotate(3deg)}
+.bam-steps li.is-done{background:var(--canvas);border-color:var(--canvas)}
+.bam-steps li[aria-current="step"]{background:var(--encore);border-color:var(--encore)}
+
+/* Campos */
+.bam-field{display:flex;flex-direction:column;gap:6px}
+.bam-field label,.bam-label{font-weight:700;font-size:14px}
+.bam-input{height:52px;padding:0 16px;border-radius:var(--r-square);border:2px solid var(--inkwell);background:transparent;color:var(--inkwell);font:400 17px var(--font-text);width:100%}
+.bam-input::placeholder{color:var(--crossroad);opacity:.75}
+.bam-input--orden{height:56px;font-weight:500;font-size:18px;letter-spacing:.5px}
+.bam-input.is-invalid{border:3px solid var(--crossroad)}
+.bam-error{margin:0;display:flex;gap:6px;align-items:center;font-size:14px;font-weight:700;color:var(--crossroad)}
+.bam-error::before{content:"!";flex:none;width:18px;height:18px;border-radius:50%;border:2.5px solid currentColor;display:grid;place-items:center;font-size:11px;line-height:1}
+
+/* Cantidad */
+.bam-qty-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.bam-qty{display:flex;align-items:center;gap:4px;border:2px solid var(--inkwell);border-radius:var(--r-pill);padding:4px}
+.bam-qty button{width:44px;height:44px;border-radius:var(--r-pill);border:0;background:var(--inkwell);color:var(--encore);cursor:pointer;display:grid;place-items:center}
+.bam-qty button:disabled{opacity:.35;cursor:not-allowed}
+.bam-qty output{min-width:48px;text-align:center;font-family:var(--font-display);font-weight:900;font-size:32px}
+
+/* Resumen */
+.bam-summary{background:var(--encore);color:var(--inkwell);border-radius:var(--r-card);padding:20px 24px;display:flex;flex-direction:column;gap:8px}
+.bam-summary__row{display:flex;justify-content:space-between;gap:12px;font-size:15px}
+.bam-summary__row strong{font-weight:700}
+.bam-summary__rule{height:2px;background:var(--inkwell);margin:6px 0}
+.bam-summary__total{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+.bam-summary__label{font-weight:700;font-size:13px;letter-spacing:3px;text-transform:uppercase}
+.bam-amount{font-family:var(--font-display);font-weight:900;line-height:.9;font-size:clamp(52px,5.6cqi,72px)}
+.bam-amount--xl{font-size:clamp(60px,6.4cqi,84px)}
+
+/* Listas de datos */
+.bam-dl{margin:0;display:grid;grid-template-columns:auto 1fr;column-gap:16px;row-gap:8px;font-size:15px}
+.bam-dl dt{color:var(--crossroad)} .bam-dl dd{margin:0;font-weight:700;overflow-wrap:anywhere}
+.bam-dl--box{border:2px solid var(--inkwell);border-radius:var(--r-card);padding:20px}
+.bam-numbered{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;font-size:15px;counter-reset:n}
+.bam-numbered li{display:flex;gap:12px;align-items:baseline;counter-increment:n}
+.bam-numbered li::before{content:counter(n);flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:13px;background:var(--insight)}
+.bam-numbered li:nth-child(2)::before{background:var(--canvas)} .bam-numbered li:nth-child(3)::before{background:var(--encore)}
+
+/* Botones */
+.bam-btn{min-height:44px;border:0;border-radius:var(--r-pill);font:700 16px var(--font-text);letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;padding:0 24px}
+.bam-btn--primary{height:60px;background:var(--inkwell);color:var(--encore)}
+.bam-btn--accent{height:56px;background:var(--encore);color:var(--inkwell)}
+.bam-btn--outline{height:56px;background:transparent;border:2px solid var(--inkwell);color:var(--inkwell);font-size:15px;letter-spacing:1px}
+.bam-btn--outline.is-highlight{background:var(--encore)}
+.bam-btn--link{background:transparent;color:var(--crossroad);text-transform:none;letter-spacing:0;font-size:14px;text-decoration:underline;align-self:center;padding:0 12px}
+.bam-btn[aria-busy="true"]{opacity:.6;pointer-events:none}
+.bam-btn svg{flex:none}
+
+/* Estados */
+.bam-badge{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;padding:5px 12px;border-radius:var(--r-pill);font-weight:700;font-size:12px;color:var(--inkwell);border:2px solid transparent}
+.bam-badge--pago{background:var(--mist);border:2px dashed var(--inkwell)}
+.bam-badge--verificacion{background:var(--insight);border-color:var(--insight)}
+.bam-badge--confirmado{background:var(--encore);border-color:var(--inkwell)}
+.bam-badge--rechazado{background:var(--inkwell);color:var(--cloud);border-color:var(--inkwell)}
+
+.bam-alert{margin:0;padding:12px 16px;border-radius:var(--r-square);border:2px dashed var(--crossroad);font-size:14px;line-height:1.45}
+
+.bam-footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;padding-block:24px 40px;border-top:1px solid var(--crossroad)}
+.bam-footer__firma{font-weight:700;font-size:13px;letter-spacing:4px;color:var(--insight)}
+.bam-footer__txt{font-size:13px}
+
+@container (max-width:720px){
+  .bam-stickers{display:none}
+  .bam-hero{padding-top:0}
+}
+
+/* ---------- Panel de administración ---------- */
+.bam-admin{min-height:100vh;background:var(--paper-insight);color:var(--inkwell)}
+.bam-admin-header{background:var(--inkwell);color:var(--canvas)}
+.bam-admin-header .bam-wrap{max-width:1440px;padding-block:12px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
+.bam-admin-title{margin:0;font-family:var(--font-display);font-weight:900;text-transform:uppercase;font-size:36px;line-height:1;color:var(--encore)}
+.bam-admin-main{max-width:1440px;margin:0 auto;padding:28px clamp(16px,3vw,48px) 48px;display:flex;flex-direction:column;gap:24px}
+.bam-btn--ghost-dark{height:44px;background:transparent;border:2px solid var(--canvas);color:var(--canvas);font-size:13px;letter-spacing:1px}
+
+.bam-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.bam-kpi{border-radius:var(--r-card);padding:20px 24px;display:flex;flex-direction:column;gap:8px;min-height:148px}
+.bam-kpi__label{font-weight:700;font-size:12px;letter-spacing:3px;text-transform:uppercase}
+.bam-kpi__value{font-family:var(--font-display);font-weight:900;font-size:64px;line-height:.9}
+.bam-kpi__hint{font-size:13px}
+.bam-kpi--encore{background:var(--encore)} .bam-kpi--canvas{background:var(--canvas)} .bam-kpi--insight{background:var(--insight)}
+.bam-kpi--inkwell{background:var(--inkwell);color:var(--canvas)}
+.bam-kpi--inkwell .bam-kpi__label{color:var(--insight)} .bam-kpi--inkwell .bam-kpi__value{color:var(--encore)}
+
+.bam-toolbar{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px}
+.bam-toolbar__tools{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.bam-search{position:relative;display:flex;align-items:center}
+.bam-search svg{position:absolute;left:16px;pointer-events:none}
+.bam-search input{height:48px;width:min(360px,80vw);padding:0 16px 0 44px;border-radius:var(--r-pill);border:2px solid var(--inkwell);background:transparent;color:var(--inkwell);font:400 15px var(--font-text)}
+.bam-search input::placeholder{color:var(--crossroad);opacity:.75}
+.bam-btn--sm{height:48px;font-size:13px;letter-spacing:1px;padding:0 20px}
+
+.bam-chips{display:flex;flex-wrap:wrap;gap:8px}
+.bam-chip{min-height:40px;padding:0 16px;border-radius:var(--r-pill);border:2px solid var(--inkwell);background:transparent;color:var(--inkwell);font:700 13px var(--font-text);cursor:pointer}
+.bam-chip[aria-pressed="true"]{background:var(--inkwell);color:var(--encore)}
+
+.bam-table-box{overflow-x:auto;border-radius:var(--r-card);border:2px solid var(--inkwell)}
+.bam-table{width:100%;min-width:1120px;border-collapse:collapse;font-size:14px}
+.bam-table thead tr{background:var(--inkwell);color:var(--canvas);text-align:left}
+.bam-table th{padding:14px 16px;font-size:12px;letter-spacing:1.5px;text-transform:uppercase}
+.bam-table td{padding:14px 16px;border-top:1px solid var(--mist);vertical-align:middle}
+.bam-table tbody tr:hover{background:var(--mist)}
+.bam-table .num{text-align:right}
+.bam-table .mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px}
+.bam-table .fecha{white-space:nowrap;color:var(--crossroad)}
+.bam-actions{display:flex;gap:8px;flex-wrap:nowrap}
+.bam-act{min-height:40px;padding:0 14px;border-radius:var(--r-pill);font:700 12px var(--font-text);letter-spacing:1px;text-transform:uppercase;cursor:pointer}
+.bam-act--ok{border:0;background:var(--encore);color:var(--inkwell)}
+.bam-act--no{border:2px solid var(--inkwell);background:transparent;color:var(--inkwell)}
+.bam-act--undo{border:0;background:transparent;color:var(--crossroad);text-decoration:underline;text-transform:none;letter-spacing:0}
+.bam-empty{padding:48px 24px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+.bam-empty strong{font-family:var(--font-display);font-weight:900;text-transform:uppercase;font-size:32px}
+
+.bam-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);max-width:calc(100vw - 32px);background:var(--inkwell);color:var(--encore);padding:14px 20px;border-radius:var(--r-pill);font-weight:700;font-size:14px;z-index:10}
+
+/* Login */
+.bam-login{min-height:100vh;background:var(--inkwell);display:grid;place-items:center;padding:16px}
+.bam-login .bam-panel{flex:none;width:min(440px,100%)}
+</style>
+
+</head>
+<body>
+<div class="bam-public">
+  <header class="bam-wrap bam-header">
+    
+    
+  </header>
+
+  <main class="bam-wrap bam-main">
+    <section class="bam-hero" aria-labelledby="bam-titulo">
+      <p class="bam-eyebrow">Books · Arts · Music</p>
+      <h1 id="bam-titulo">BAM Festival 2026</h1>
+      <p class="bam-lead">Un encuentro abierto de libros, artes y música. Compra aquí tus entradas.</p>
+      <dl class="bam-meta">
+        <dt>Fecha</dt><dd>Viernes 27 de noviembre de 2026</dd>
+        <dt>Horario</dt><dd>15:00 a 20:00 hrs.</dd>
+        <dt>Lugar</dt><dd>Colegio Pioneros, Chicureo</dd>
+      </dl>
+      <div class="bam-stickers" aria-hidden="true">
+        <span class="bam-sticker bam-sticker--insight tilt-l">Imaginar</span>
+        <span class="bam-sticker bam-sticker--canvas bam-sticker--square tilt-r">Conversar</span>
+        <span class="bam-sticker bam-sticker--encore bam-sticker--soft tilt-l2">Escuchar</span>
+        <span class="bam-sticker bam-sticker--insight tilt-r2">Descubrir</span>
+      </div>
+    </section>
+
+    <section class="bam-panel" aria-live="polite">
+      <ol class="bam-steps" aria-label="Pasos de la compra" id="bam-steps">
+        <li>1 · DATOS</li><li>2 · PAGO</li><li>3 · ORDEN</li><li>4 · LISTO</li>
+      </ol>
+
+      <p class="bam-alert" id="bam-global-error" role="alert" hidden></p>
+
+      <!-- Pantalla 1 · Compra de entradas -->
+      <form class="bam-screen" data-screen="1" id="bam-form-datos" novalidate>
+        <h2 class="bam-h2" tabindex="-1">Tus entradas</h2>
+
+        <div class="bam-field">
+          <label for="bam-nombre">Nombre completo <span aria-hidden="true">*</span></label>
+          <input class="bam-input" id="bam-nombre" name="nombre" type="text" autocomplete="name" required maxlength="120" placeholder="Nombre y apellido" aria-describedby="bam-nombre-err">
+          <p class="bam-error" id="bam-nombre-err" hidden>Ingresa tu nombre completo.</p>
+        </div>
+
+        <div class="bam-field">
+          <label for="bam-correo">Correo electrónico <span aria-hidden="true">*</span></label>
+          <input class="bam-input" id="bam-correo" name="correo" type="email" inputmode="email" autocomplete="email" required maxlength="160" placeholder="nombre@correo.cl" aria-describedby="bam-correo-err">
+          <p class="bam-error" id="bam-correo-err" hidden>Revisa tu correo: ahí te llegará la confirmación.</p>
+        </div>
+
+        <div class="bam-qty-row">
+          <span class="bam-label" id="bam-cant-label">Cantidad de entradas</span>
+          <div class="bam-qty" role="group" aria-labelledby="bam-cant-label">
+            <button type="button" id="bam-menos" aria-label="Quitar una entrada"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 12h14"/></svg></button>
+            <output id="bam-cantidad" aria-live="polite">1</output>
+            <button type="button" id="bam-mas" aria-label="Agregar una entrada"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+          </div>
+        </div>
+
+        <div class="bam-summary" aria-label="Resumen de compra">
+          <div class="bam-summary__row"><span>Precio unitario</span><strong data-bind="precio"></strong></div>
+          <div class="bam-summary__row"><span>Cantidad</span><strong data-bind="cantidadTxt"></strong></div>
+          <div class="bam-summary__rule"></div>
+          <div class="bam-summary__total"><span class="bam-summary__label">Total</span><span class="bam-amount" data-bind="total"></span></div>
+        </div>
+
+        <button type="submit" class="bam-btn bam-btn--primary">Continuar al pago
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        <p class="bam-note">Guardamos tus datos en este dispositivo mientras completas la compra. Si cambias de equipo, puedes recuperar una compra existente con su código de recuperación.</p>
+        <details class="bam-recovery"><summary>¿Ya comenzaste una compra en otro dispositivo?</summary>
+          <div class="bam-field"><label for="bam-codigo-recuperacion">Código de recuperación BAM</label>
+            <input class="bam-input" id="bam-codigo-recuperacion" type="text" autocomplete="off" placeholder="Pega aquí tu código de recuperación">
+            <button type="button" class="bam-btn bam-btn--outline" id="bam-recuperar">Recuperar compra</button>
+          </div>
+        </details>
+      </form>
+
+      <!-- Pantalla 2 · Pagar con Webpay -->
+      <div class="bam-screen" data-screen="2" hidden>
+        <h2 class="bam-h2" tabindex="-1">Paga con Webpay</h2>
+        <dl class="bam-dl">
+          <dt>Comprador</dt><dd data-bind="nombre"></dd>
+          <dt>Entradas</dt><dd data-bind="cantidad"></dd>
+        </dl>
+        <div class="bam-summary">
+          <span class="bam-summary__label">Monto exacto a pagar</span>
+          <span class="bam-amount bam-amount--xl" data-bind="total"></span>
+        </div>
+        <div class="bam-recovery-box"><p class="bam-note">Guarda este código para recuperar tu compra desde otro dispositivo:</p>
+          <code class="bam-recovery-code" id="bam-codigo"></code>
+          <button type="button" class="bam-btn bam-btn--outline" id="bam-copiar-codigo">Copiar código de recuperación</button>
+        </div>
+        <p class="bam-text">Para completar tu compra, realiza el pago a través del portal seguro de Webpay del Colegio Pioneros. Ingresa el monto exacto indicado y, una vez finalizado el pago, regresa a esta página para registrar tu número de orden.</p>
+        <ol class="bam-numbered">
+          <li>Abre Webpay: se abrirá en una pestaña nueva.</li>
+          <li><span>Ingresa exactamente <strong data-bind="total"></strong>.</span></li>
+          <li>Copia el número de orden del comprobante y vuelve a esta pestaña.</li>
+        </ol>
+        <a class="bam-btn bam-btn--primary" id="bam-webpay" href="https://www.webpay.cl/form-pay/308228" target="_blank" rel="noopener noreferrer">Pagar con Webpay
+          <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a>
+        <button type="button" class="bam-btn bam-btn--outline" id="bam-ya-pague">Ya pagué · registrar mi orden</button>
+        <button type="button" class="bam-btn bam-btn--link" id="bam-editar">Editar mis datos</button>
+      </div>
+
+      <!-- Pantalla 3 · Registrar comprobante -->
+      <form class="bam-screen" data-screen="3" id="bam-form-orden" novalidate hidden>
+        <h2 class="bam-h2" tabindex="-1">¡Ya casi tienes tus entradas!</h2>
+        <p class="bam-text">Ingresa el número de orden que aparece en tu comprobante de Webpay para que podamos verificar tu compra.</p>
+        <div class="bam-field">
+          <label for="bam-orden">Número de orden de pago <span aria-hidden="true">*</span></label>
+          <input class="bam-input bam-input--orden" id="bam-orden" name="orden" type="text" required autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="64" placeholder="Ej.: D17nd62E8dWaxioTtdF0Q" aria-describedby="bam-orden-ayuda bam-orden-err">
+          <p class="bam-note" id="bam-orden-ayuda">Cópialo tal como aparece, respetando mayúsculas y minúsculas.</p>
+          <p class="bam-error" id="bam-orden-err" hidden></p>
+        </div>
+        <dl class="bam-dl bam-dl--box">
+          <dt>Nombre</dt><dd data-bind="nombre"></dd>
+          <dt>Entradas</dt><dd data-bind="cantidad"></dd>
+          <dt>Monto</dt><dd data-bind="total"></dd>
+        </dl>
+        <button type="submit" class="bam-btn bam-btn--primary">Registrar mi pago</button>
+        <button type="button" class="bam-btn bam-btn--link" id="bam-volver-pago">Volver a las instrucciones de pago</button>
+      </form>
+
+      <!-- Pantalla 4 · Registro recibido -->
+      <div class="bam-screen" data-screen="4" hidden>
+        <h2 class="bam-h2" tabindex="-1">¡Recibimos tu registro!</h2>
+        <p class="bam-text">Tu compra quedó registrada y está pendiente de verificación por nuestro equipo. Una vez confirmado el pago, recibirás la confirmación en tu correo electrónico.</p>
+        <dl class="bam-dl bam-dl--box">
+          <dt>Nombre</dt><dd data-bind="nombre"></dd>
+          <dt>Correo</dt><dd data-bind="correo"></dd>
+          <dt>Entradas</dt><dd data-bind="cantidad"></dd>
+          <dt>Monto</dt><dd data-bind="total"></dd>
+          <dt>N.º de orden</dt><dd data-bind="orden"></dd>
+          <dt>Estado</dt><dd><span class="bam-badge" id="bam-estado"></span></dd>
+        </dl>
+        <p class="bam-note">Guarda tu comprobante de Webpay hasta recibir la confirmación. Si tienes dudas, escríbenos indicando tu número de orden.</p>
+        <button type="button" class="bam-btn bam-btn--outline" id="bam-otra">Hacer otra compra</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bam-wrap bam-footer">
+    <span class="bam-footer__firma">A COLEGIO PIONEROS FESTIVAL</span>
+    <span class="bam-footer__txt">El pago se realiza en el portal Webpay del Colegio Pioneros.</span>
+  </footer>
+</div>
+
+<script>window.BAM_CFG = {"precio": 4000, "max": 10, "webpay": "https://www.webpay.cl/form-pay/308228", "horario": "15:00 a 20:00 hrs.", "logo": "", "sello": ""};</script>
+<script>
+/* Utilidades compartidas entre la compra y el panel. */
+window.BAM = (function () {
+  /** Llama a una función de Code.gs y devuelve una Promesa. */
+  function api(fn) {
+    var args = Array.prototype.slice.call(arguments, 1);
+    return fetch('/.netlify/functions/bam-api', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fn: fn, args: args }),
+      credentials: 'same-origin'
+    }).then(function (response) {
+      return response.json().catch(function () { throw new Error('No se pudo leer la respuesta del servidor.'); })
+        .then(function (json) {
+          if (!response.ok || !json.ok) throw new Error(json.error || 'No se pudo completar la operación.');
+          return json.data;
+        });
+    });
+  }
+
+  function clp(n) { return '$' + String(Math.round(Number(n) || 0)).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+
+  /** localStorage con try/catch: en modo privado o con datos bloqueados, sigue en memoria. */
+  var memoria = {};
+  var store = {
+    get: function (k) {
+      try { var v = window.localStorage.getItem(k); return v ? JSON.parse(v) : null; }
+      catch (e) { return memoria[k] || null; }
+    },
+    set: function (k, v) {
+      memoria[k] = v;
+      try { window.localStorage.setItem(k, JSON.stringify(v)); } catch (e) {}
+    },
+    remove: function (k) {
+      delete memoria[k];
+      try { window.localStorage.removeItem(k); } catch (e) {}
+    }
+  };
+
+  var BADGE = {
+    'Pendiente de pago': 'bam-badge--pago',
+    'Pendiente de verificación': 'bam-badge--verificacion',
+    'Confirmado': 'bam-badge--confirmado',
+    'Rechazado': 'bam-badge--rechazado'
+  };
+  function badge(el, estado) {
+    el.className = 'bam-badge ' + (BADGE[estado] || '');
+    el.textContent = estado;
+  }
+
+  /** Mensaje legible a partir de un error del servidor. */
+  function msg(err) {
+    var m = (err && err.message) || String(err || '');
+    return m.replace(/^Exception:\s*/i, '').replace(/^Error:\s*/i, '') || 'Ocurrió un problema. Intenta de nuevo.';
+  }
+
+  function busy(btn, on) {
+    if (!btn) return;
+    btn.setAttribute('aria-busy', on ? 'true' : 'false');
+    btn.disabled = !!on;
+  }
+
+  return { api: api, clp: clp, store: store, badge: badge, msg: msg, busy: busy, ESTADOS: Object.keys(BADGE) };
+})();
+</script>
+
+<script>
+(function () {
+  var CFG = window.BAM_CFG;
+  var KEY = 'bam2026_compra';
+  var RE_CORREO = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  var RE_ORDEN = /^[A-Za-z0-9_-]{6,64}$/;
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+
+  // Estado de la compra. Persiste en localStorage para sobrevivir a la pestaña de Webpay y a recargas.
+  var s = Object.assign({ step: 1, nombre: '', correo: '', cantidad: 1, opened: false }, BAM.store.get(KEY) || {});
+  function save() { BAM.store.set(KEY, s); }
+
+  /* ---------- Render ---------- */
+  function render(focus) {
+    var total = s.cantidad * CFG.precio;
+    var vals = {
+      precio: BAM.clp(CFG.precio) + ' CLP',
+      cantidad: String(s.cantidad),
+      cantidadTxt: s.cantidad + (s.cantidad === 1 ? ' entrada' : ' entradas'),
+      total: BAM.clp(s.monto || total),
+      nombre: s.nombre, correo: s.correo, orden: s.orden || ''
+    };
+    $$('[data-bind]').forEach(function (el) { el.textContent = vals[el.getAttribute('data-bind')] || ''; });
+    $('#bam-cantidad').value = s.cantidad;
+    $('#bam-cantidad').textContent = s.cantidad;
+    $('#bam-menos').disabled = s.cantidad <= 1;
+    $('#bam-mas').disabled = s.cantidad >= CFG.max;
+
+    $$('[data-screen]').forEach(function (el) { el.hidden = Number(el.getAttribute('data-screen')) !== s.step; });
+    $$('#bam-steps li').forEach(function (li, i) {
+      var n = i + 1;
+      li.classList.toggle('is-done', n < s.step);
+      if (n === s.step) li.setAttribute('aria-current', 'step'); else li.removeAttribute('aria-current');
+    });
+    $('#bam-ya-pague').classList.toggle('is-highlight', !!s.opened);
+    $('#bam-codigo').textContent = (s.id && s.token) ? (s.id + '.' + s.token) : '';
+    if (s.step === 4) BAM.badge($('#bam-estado'), s.estado || 'Pendiente de verificación');
+    if (focus) { var h = $('[data-screen="' + s.step + '"] h2'); if (h) h.focus(); }
+  }
+
+  function go(step) { s.step = step; save(); hideGlobal(); render(true); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+  function fieldError(input, errEl, text) {
+    input.classList.toggle('is-invalid', !!text);
+    input.setAttribute('aria-invalid', text ? 'true' : 'false');
+    errEl.hidden = !text;
+    if (text && errEl.id !== 'bam-nombre-err' && errEl.id !== 'bam-correo-err') errEl.textContent = text;
+  }
+  function showGlobal(text) { var el = $('#bam-global-error'); el.textContent = text; el.hidden = false; }
+  function hideGlobal() { $('#bam-global-error').hidden = true; }
+
+  /* ---------- Pantalla 1 ---------- */
+  $('#bam-nombre').value = s.nombre;
+  $('#bam-correo').value = s.correo;
+  $('#bam-nombre').addEventListener('input', function (e) { s.nombre = e.target.value; save(); fieldError(e.target, $('#bam-nombre-err'), ''); });
+  $('#bam-correo').addEventListener('input', function (e) { s.correo = e.target.value; save(); fieldError(e.target, $('#bam-correo-err'), ''); });
+  $('#bam-menos').addEventListener('click', function () { s.cantidad = Math.max(1, s.cantidad - 1); save(); render(); });
+  $('#bam-mas').addEventListener('click', function () { s.cantidad = Math.min(CFG.max, s.cantidad + 1); save(); render(); });
+
+  $('#bam-form-datos').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var nombre = s.nombre.trim(), correo = s.correo.trim().toLowerCase();
+    var bad = false;
+    if (nombre.length < 3) { fieldError($('#bam-nombre'), $('#bam-nombre-err'), 'x'); bad = true; }
+    if (!RE_CORREO.test(correo)) { fieldError($('#bam-correo'), $('#bam-correo-err'), 'x'); bad = true; }
+    if (bad) { $('.is-invalid').focus(); return; }
+
+    var btn = e.submitter || $('#bam-form-datos [type=submit]');
+    BAM.busy(btn, true);
+    var datos = { nombre: nombre, correo: correo, cantidad: s.cantidad };
+    // Si ya existe una compra sin orden, se actualiza en vez de crear otra.
+    var call = (s.id && s.token)
+      ? BAM.api('actualizarCompra', { id: s.id, token: s.token }, datos)
+      : BAM.api('crearCompra', datos);
+    call.then(function (c) {
+      Object.assign(s, c, { token: c.token || s.token });
+      go(2);
+    }).catch(function (err) {
+      // La compra anterior ya no admite cambios: empezar una nueva.
+      if (/ya no puede modificarse|No encontramos/.test(BAM.msg(err))) { delete s.id; delete s.token; }
+      showGlobal(BAM.msg(err));
+    }).finally(function () { BAM.busy(btn, false); });
+  });
+
+  /* ---------- Pantalla 2 ---------- */
+  $('#bam-webpay').addEventListener('click', function () { s.opened = true; save(); render(); });
+  $('#bam-copiar-codigo').addEventListener('click', function () {
+    var codigo = (s.id || '') + '.' + (s.token || '');
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(codigo).then(function () { $('#bam-copiar-codigo').textContent = 'Código copiado'; })
+        .catch(function () { window.prompt('Copia tu código:', codigo); });
+    } else window.prompt('Copia tu código:', codigo);
+  });
+  $('#bam-recuperar').addEventListener('click', function () {
+    var v = $('#bam-codigo-recuperacion').value.trim();
+    var m = /^([0-9a-f-]{36})\.([0-9a-f]{32})$/i.exec(v);
+    if (!m) { showGlobal('Código de recuperación inválido. Revisa que esté completo.'); return; }
+    var boton = $('#bam-recuperar'); BAM.busy(boton, true);
+    BAM.api('obtenerCompra', { id: m[1], token: m[2] }).then(function (c) {
+      s = Object.assign({ opened: false }, c, { token: m[2], step: c.estado === 'Pendiente de pago' ? 2 : 4 });
+      $('#bam-nombre').value = s.nombre; $('#bam-correo').value = s.correo;
+      save(); go(s.step);
+    }).catch(function (err) { showGlobal(BAM.msg(err)); }).finally(function () { BAM.busy(boton, false); });
+  });
+  $('#bam-ya-pague').addEventListener('click', function () { go(3); });
+  $('#bam-editar').addEventListener('click', function () { go(1); });
+
+  /* ---------- Pantalla 3 ---------- */
+  $('#bam-orden').addEventListener('input', function (e) { fieldError(e.target, $('#bam-orden-err'), ''); });
+  $('#bam-volver-pago').addEventListener('click', function () { go(2); });
+  $('#bam-form-orden').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var input = $('#bam-orden'), orden = input.value.trim();
+    if (!RE_ORDEN.test(orden)) {
+      fieldError(input, $('#bam-orden-err'), 'Ingresa un número de orden válido (letras y números, sin espacios).');
+      input.focus(); return;
+    }
+    var btn = e.submitter || $('#bam-form-orden [type=submit]');
+    BAM.busy(btn, true);
+    BAM.api('registrarOrden', { id: s.id, token: s.token, orden: orden })
+      .then(function (c) { Object.assign(s, c); go(4); })
+      .catch(function (err) { fieldError(input, $('#bam-orden-err'), BAM.msg(err)); input.focus(); })
+      .finally(function () { BAM.busy(btn, false); });
+  });
+
+  /* ---------- Pantalla 4 ---------- */
+  $('#bam-otra').addEventListener('click', function () {
+    BAM.store.remove(KEY);
+    s = { step: 1, nombre: '', correo: '', cantidad: 1, opened: false };
+    $('#bam-nombre').value = ''; $('#bam-correo').value = ''; $('#bam-orden').value = '';
+    go(1);
+  });
+
+  /* ---------- Otra pestaña actualizó la compra ---------- */
+  window.addEventListener('storage', function (e) {
+    if (e.key !== KEY) return;
+    var nuevo = BAM.store.get(KEY);
+    if (nuevo) { s = Object.assign(s, nuevo); render(); }
+  });
+
+  /* ---------- Al volver: sincronizar con el servidor ---------- */
+  render();
+  if (s.id && s.token) {
+    BAM.api('obtenerCompra', { id: s.id, token: s.token }).then(function (c) {
+      Object.assign(s, c);
+      if (c.estado !== 'Pendiente de pago') s.step = 4;          // ya registró su orden
+      else if (s.step < 2) s.step = 2;                           // tenía una compra creada
+      save(); render();
+    }).catch(function () {
+      delete s.id; delete s.token; s.step = 1; save(); render();
+    });
+  } else if (s.step > 1) {
+    s.step = 1; save(); render();
+  }
+})();
+</script>
+
+</body>
+</html>
