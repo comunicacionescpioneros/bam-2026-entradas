@@ -161,7 +161,7 @@ button{font:inherit}
 .bam-chip[aria-pressed="true"]{background:var(--inkwell);color:var(--encore)}
 
 .bam-table-box{overflow-x:auto;border-radius:var(--r-card);border:2px solid var(--inkwell)}
-.bam-table{width:100%;min-width:1120px;border-collapse:collapse;font-size:14px}
+.bam-table{width:100%;min-width:1320px;border-collapse:collapse;font-size:14px}
 .bam-table thead tr{background:var(--inkwell);color:var(--canvas);text-align:left}
 .bam-table th{padding:14px 16px;font-size:12px;letter-spacing:1.5px;text-transform:uppercase}
 .bam-table td{padding:14px 16px;border-top:1px solid var(--mist);vertical-align:middle}
@@ -253,9 +253,9 @@ button{font:inherit}
         <table class="bam-table">
           <thead>
             <tr>
-              <th scope="col">Fecha y hora</th><th scope="col">Nombre</th><th scope="col">Correo</th>
+              <th scope="col">Fecha y hora</th><th scope="col">Nombre</th><th scope="col">Acciones</th><th scope="col">Correo</th>
               <th scope="col" class="num">Entradas</th><th scope="col" class="num">Monto</th>
-              <th scope="col">N.º orden Webpay</th><th scope="col">Estado</th><th scope="col">Revisado por</th><th scope="col">Acciones</th>
+              <th scope="col">N.º orden Webpay</th><th scope="col">Estado</th><th scope="col">Revisado por</th>
             </tr>
           </thead>
           <tbody id="bam-tbody"></tbody>
@@ -444,17 +444,17 @@ window.BAM = (function () {
       var tr = el('tr');
       tr.appendChild(el('td', 'fecha', r.fecha));
       tr.appendChild(el('td', null, r.nombre)).style.fontWeight = '700';
+      var tdA = el('td'), box = el('div', 'bam-actions');
+      if (r.estado === 'Pendiente de verificación') box.appendChild(accion(r, 'confirmar', 'Confirmar', 'bam-act--ok'));
+      if (r.estado === 'Pendiente de verificación' || r.estado === 'Pendiente de pago') box.appendChild(accion(r, 'rechazar', 'Rechazar', 'bam-act--no'));
+      if (r.estado === 'Confirmado' || r.estado === 'Rechazado') box.appendChild(accion(r, 'revertir', 'Volver a pendiente', 'bam-act--undo'));
+      tdA.appendChild(box); tr.appendChild(tdA);
       tr.appendChild(el('td', null, r.correo));
       tr.appendChild(el('td', 'num', r.cantidad)).style.fontWeight = '700';
       tr.appendChild(el('td', 'num', BAM.clp(r.monto)));
       tr.appendChild(el('td', 'mono', r.orden || 'Sin orden aún'));
       var tdE = el('td'), badge = el('span'); BAM.badge(badge, r.estado); tdE.appendChild(badge); tr.appendChild(tdE);
       tr.appendChild(el('td', null, r.revisadoPor || '—'));
-      var tdA = el('td'), box = el('div', 'bam-actions');
-      if (r.estado === 'Pendiente de verificación') box.appendChild(accion(r, 'confirmar', 'Confirmar', 'bam-act--ok'));
-      if (r.estado === 'Pendiente de verificación' || r.estado === 'Pendiente de pago') box.appendChild(accion(r, 'rechazar', 'Rechazar', 'bam-act--no'));
-      if (r.estado === 'Confirmado' || r.estado === 'Rechazado') box.appendChild(accion(r, 'revertir', 'Volver a pendiente', 'bam-act--undo'));
-      tdA.appendChild(box); tr.appendChild(tdA);
       tb.appendChild(tr);
     });
 
