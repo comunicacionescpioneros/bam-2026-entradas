@@ -423,6 +423,35 @@ window.BAM = (function () {
     return b;
   }
 
+  /* Compras que pagaron pero no registraron su orden: el equipo la busca en Webpay y la ingresa. */
+  function confirmarManual(r) {
+    var b = el('button', 'bam-act bam-act--ok', 'Confirmar pago');
+    b.type = 'button';
+    b.setAttribute('aria-label', 'Confirmar manualmente el pago de ' + r.nombre);
+    b.addEventListener('click', function () {
+      var orden = window.prompt(
+        'CONFIRMACIÓN MANUAL\n' + r.nombre + ' · ' + r.cantidad + ' entradas · ' + BAM.clp(r.monto) + '\n\n' +
+        'Busca este pago en Webpay (monto, fecha y datos del pagador) y pega aquí su número de orden.\n' +
+        'Si no lo encuentras, deja el campo vacío y escribe una nota en el paso siguiente.', '');
+      if (orden === null) return;
+      orden = orden.trim();
+      var nota = '';
+      if (!orden) {
+        nota = window.prompt('Nota obligatoria: ¿cómo verificaste el pago de ' + r.nombre + '?', '');
+        if (nota === null) return;
+        if (nota.trim().length < 5) { toast('Debes explicar cómo verificaste el pago.'); return; }
+      } else {
+        if (!window.confirm('¿Comprobaste en Webpay que la orden ' + orden + ' está APROBADA y corresponde exactamente a ' + BAM.clp(r.monto) + '?')) return;
+        nota = 'Orden ingresada por el equipo tras cotejo en Webpay';
+      }
+      b.disabled = true;
+      BAM.api('adminConfirmarManual', sesion, r.id, orden, nota)
+        .then(function () { toast(r.nombre + ' · Confirmado'); cargar(); })
+        .catch(function (err) { b.disabled = false; manejarError(err); });
+    });
+    return b;
+  }
+
   function render() {
     var k = datos.kpis;
     document.querySelectorAll('[data-kpi]').forEach(function (n) {
@@ -446,6 +475,7 @@ window.BAM = (function () {
       tr.appendChild(el('td', null, r.nombre)).style.fontWeight = '700';
       var tdA = el('td'), box = el('div', 'bam-actions');
       if (r.estado === 'Pendiente de verificación') box.appendChild(accion(r, 'confirmar', 'Confirmar', 'bam-act--ok'));
+      if (r.estado === 'Pendiente de pago') box.appendChild(confirmarManual(r));
       if (r.estado === 'Pendiente de verificación' || r.estado === 'Pendiente de pago') box.appendChild(accion(r, 'rechazar', 'Rechazar', 'bam-act--no'));
       if (r.estado === 'Confirmado' || r.estado === 'Rechazado') box.appendChild(accion(r, 'revertir', 'Volver a pendiente', 'bam-act--undo'));
       tdA.appendChild(box); tr.appendChild(tdA);

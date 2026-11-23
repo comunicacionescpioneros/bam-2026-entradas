@@ -1,7 +1,7 @@
 // Proxy de servidor Netlify -> Apps Script. El secreto jamás se entrega al navegador.
 const ALLOWED = new Set([
   'crearCompra', 'actualizarCompra', 'obtenerCompra', 'registrarOrden',
-  'adminLogin', 'adminLogout', 'adminListar', 'adminActualizarEstado', 'adminExportarCSV'
+  'adminLogin', 'adminLogout', 'adminListar', 'adminActualizarEstado', 'adminConfirmarManual', 'adminExportarCSV'
 ]);
 const json = (value, status=200) => new Response(JSON.stringify(value), {
   status, headers: {'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}
